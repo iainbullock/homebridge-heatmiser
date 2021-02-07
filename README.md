@@ -36,6 +36,7 @@ The mintemp & maxtemp options set the range on the thermostat faceplate. The tar
       "maxtemp": 24,
       "name": "Thermostat",
       "room": "Hall"    }
+
 ```
 
 * For Netmonitor

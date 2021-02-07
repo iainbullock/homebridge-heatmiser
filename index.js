@@ -20,6 +20,7 @@ function HeatmiserWifi(log, config, api) {
     this.model = config["model"];
     this.mintemp = config["mintemp"];
     this.maxtemp = config["maxtemp"];
+
     this.lock = new AsyncLock({ timeout: config["timeout"] || 5000 });
 
     this.thermostat = new Service.Thermostat();
@@ -176,6 +177,7 @@ HeatmiserWifi.prototype = {
         }
       else {
           this.lock.acquire(key, function (done) {
+
             var dcb1 = {
                   heating: {
                       target: targetTemperature
@@ -226,6 +228,8 @@ HeatmiserWifi.prototype = {
           .setCharacteristic(Characteristic.Model, "Heatmiser Wifi") // Possible to get actual Model from DCB if required
           .setCharacteristic(Characteristic.SerialNumber, "HMHB-1");
 
+
         return [informationService, this.thermostat];
+
     }
 };
