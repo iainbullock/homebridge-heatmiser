@@ -32,11 +32,11 @@ The mintemp & maxtemp options set the range on the thermostat faceplate. The tar
       "pin": your_pin,
       "port": 8068,
       "model": "your_model",
-      "mintemp": 10,
-      "maxtemp": 30,
+      "mintemp": 5,
+      "maxtemp": 24,
       "name": "Thermostat",
-      "room": "Hall"
-    }
+      "room": "Hall"    }
+
 ```
 
 * For Netmonitor
