@@ -104,7 +104,7 @@ HeatmiserWifi.prototype = {
                     awayMode = 'away';
                     break;
                   case Characteristic.TargetHeatingCoolingState.COOL:
-                    targetTemperature = Math.trunc(CT);
+                    targetTemperature = this.mintemp;
                     awayMode = 'home';
                     break;
                   case Characteristic.TargetHeatingCoolingState.AUTO:
