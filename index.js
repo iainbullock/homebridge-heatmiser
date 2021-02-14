@@ -21,7 +21,8 @@ function HeatmiserWifi(log, config, api) {
     this.mintemp = config["mintemp"];
     this.maxtemp = config["maxtemp"];
     this.refreshInterval = config["refreshInterval"];
-    this.writeNeeded = 0;
+    this.writeTHCSNeeded = 0;
+    this.writeTTNeeded = 0;
 
     this.lock = new AsyncLock({ timeout: config["timeout"] || 5000 });
 
@@ -49,53 +50,52 @@ function HeatmiserWifi(log, config, api) {
 HeatmiserWifi.prototype = {
 
     setTargetHeatingCoolingState: function (setTargetHeatingCoolingState, callback) {
-      this.writeNeeded = 1;
+      this.writeTHCSNeeded = 1;
       var THCS = this.thermostat.getCharacteristic(Characteristic.TargetHeatingCoolingState).value; // 0,1,2,3
-      this.log('setTargetHeatingCoolingState: ' + THCS);
+//      this.log('setTargetHeatingCoolingState: ' + THCS);
     callback(null);
     },
 
     getCurrentHeatingCoolingState: function (callback) {
       var CHCS = this.thermostat.getCharacteristic(Characteristic.CurrentHeatingCoolingState).value; // 0,1,2
-      this.log('getCurrentHeatingCoolingState: ' + CHCS);
+//      this.log('getCurrentHeatingCoolingState: ' + CHCS);
     callback(null,CHCS);
     },
 
     getTargetHeatingCoolingState: function (callback) {
         var THCS = this.thermostat.getCharacteristic(Characteristic.TargetHeatingCoolingState).value; // 0,1,2,3
-        this.log('getTargetHeatingCoolingState: ' + THCS);
+//        this.log('getTargetHeatingCoolingState: ' + THCS);
     callback(null,THCS);
     },
 
     getCurrentTemperature: function (callback) {
         var CT = this.thermostat.getCharacteristic(Characteristic.CurrentTemperature).value; // 0-100
-        this.log('getCurrentTemperature: ' + CT);
+//        this.log('getCurrentTemperature: ' + CT);
     callback(null,CT)
     },
 
     getTargetTemperature: function (callback) {
         var TT = this.thermostat.getCharacteristic(Characteristic.TargetTemperature).value; // 10-38
-        this.log('getTargetTemperature: ' + TT);
+//        this.log('getTargetTemperature: ' + TT);
     callback(null,TT);
     },
 
     setTargetTemperature: function (targetTemperature, callback) {
-        this.writeNeeded = 1;
+        this.writeTTNeeded = 1;
         var TT = this.thermostat.getCharacteristic(Characteristic.TargetTemperature).value; // 10-38
-        this.log('setTargetTemperature: ' + TT);
+//        this.log('setTargetTemperature: ' + TT);
       callback(null);
     },
 
     getTemperatureDisplayUnits: function (callback) {
         var TDU = this.thermostat.getCharacteristic(Characteristic.TemperatureDisplayUnits).value; // 0,1
-        this.log('getTemperatureDisplayUnits: ' + TDU);
+//        this.log('getTemperatureDisplayUnits: ' + TDU);
     callback(null,TDU)
     },
 
     setTemperatureDisplayUnits: function (displayUnits, callback) {
         this.log("setTemperatureDisplayUnits: " + displayUnits);
-        //this.log(displayUnits);
-        callback(null);
+    callback(null);
     },
 
     getName: function (callback) {
@@ -132,33 +132,41 @@ HeatmiserWifi.prototype = {
         var CT = this.thermostat.getCharacteristic(Characteristic.CurrentTemperature).value; // 0-100
         var TT = this.thermostat.getCharacteristic(Characteristic.TargetTemperature).value; // 10-38
         var TDU = this.thermostat.getCharacteristic(Characteristic.TemperatureDisplayUnits).value; // 0,1
+        var awayMode, targetTemperature;
 
-        if (this.writeNeeded) {
+        if (this.writeTTNeeded || this.writeTHCSNeeded) {
           // Write to Heatmiser
-          this.log('Polling. Writing to Heatmiser. Current values are: CHCS: ' + CHCS + ' THCS: ' + THCS + ' CT: ' + CT + ' TT: ' + TT + ' TDU: ' + TDU);
+          if (this.writeTHCSNeeded) {
+            this.log('Polling. Writing THCS. Current values are: CHCS: ' + CHCS + ' THCS: ' + THCS + ' CT: ' + CT + ' TT: ' + TT + ' TDU: ' + TDU);
+            switch (THCS){
+              case Characteristic.TargetHeatingCoolingState.OFF:
+                targetTemperature = this.mintemp;
+                awayMode = 'away';
+                break;
+              case Characteristic.TargetHeatingCoolingState.COOL:
+                targetTemperature = this.mintemp;
+                awayMode = 'home';
+                break;
+              case Characteristic.TargetHeatingCoolingState.AUTO:
+                targetTemperature = Math.round(CT);
+                awayMode = 'home';
+                break;
+              case Characteristic.TargetHeatingCoolingState.HEAT:
+                targetTemperature = Math.trunc(CT) + 1;
+                awayMode = 'home';
+                break;
+              default:
+                targetTemperature = CT;
+                awayMode = 'home';
+                break;
+                }
 
-          var awayMode, targetTemperature;
-          switch (THCS){
-            case Characteristic.TargetHeatingCoolingState.OFF:
-              targetTemperature = this.mintemp;
-              awayMode = 'away';
-              break;
-            case Characteristic.TargetHeatingCoolingState.COOL:
-              targetTemperature = this.mintemp;
-              awayMode = 'home';
-              break;
-            case Characteristic.TargetHeatingCoolingState.AUTO:
-              targetTemperature = Math.round(CT);
-              awayMode = 'home';
-              break;
-            case Characteristic.TargetHeatingCoolingState.HEAT:
-              targetTemperature = Math.trunc(CT) + 1;
-              awayMode = 'home';
-              break;
-            default:
-              targetTemperature = CT;
-              awayMode = 'home';
-              break;
+              this.writeTHCSNeeded = 0;
+
+              } else {
+              this.log('Polling. Writing TT. Current values are: CHCS: ' + CHCS + ' THCS: ' + THCS + ' CT: ' + CT + ' TT: ' + TT + ' TDU: ' + TDU);
+              targetTemperature = TT;
+              this.writeTTNeeded = 0;
               }
 
           var dcb1 = {
@@ -181,7 +189,7 @@ HeatmiserWifi.prototype = {
 
         } else {
           // Read from Heatmiser
-          this.log('Polling. Reading from Heatmiser. Current values are: CHCS: ' + CHCS + ' THCS: ' + THCS + ' CT: ' + CT + ' TT: ' + TT + ' TDU: ' + TDU);
+          this.log('Polling. Reading. Current values are: CHCS: ' + CHCS + ' THCS: ' + THCS + ' CT: ' + CT + ' TT: ' + TT + ' TDU: ' + TDU);
 
           var hm = new heatmiser.Wifi(this.ip_address, this.pin, this.port, this.model), error = null;
           hm.on('error', (err) => {this.log('Polling: An error occurred on reading! ' + err.message); error = err;});
@@ -211,6 +219,6 @@ HeatmiserWifi.prototype = {
           }
 
         this.timer = setTimeout(this.poll.bind(this), this.refreshInterval)
-        this.writeNeeded = 0;
+
         }
 }
