@@ -1,4 +1,4 @@
-# homebridge-heatmiser
+# homebridge-heatmiser-iainbullock
 ## Heatmiser Thermostats Homebridge plugin
 
 This is an Accessory plugin for Nick Farina's Homebridge implementation (https://github.com/nfarina/homebridge)
@@ -7,7 +7,7 @@ Based on homebridge-heatmiser by pumamood (https://github.com/pumamood/homebridg
 
 Reads and Writes with the Heatmiser are done asyncronously by polling, which is makes the plugin faster and less prone to lock ups caused by the slow Heatmiser response.
 
-Tested with Heatmiser Wifi accessory here, not with Netmonitor.
+Tested with Heatmiser Wifi accessory, not with Netmonitor.
 
 
 # Installing Plugin
@@ -20,7 +20,6 @@ You can install this plugin the same way you installed Homebridge - as a global 
 
 
 Add to config.json under "accessories" array
-* For Heatmiser WiFi thermostats
 
 Options for "your_model" are: "DT", "DT-E", "PRT", "PRT-E", "PRTHW" (see https://github.com/carlossg/heatmiser-node/blob/master/lib/wifi.js#L40)
 
