@@ -29,7 +29,6 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm config set package-lock false"
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
