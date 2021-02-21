@@ -1,4 +1,4 @@
-# homebridge-heatmiser-iainbullock
+# homebridge-heatmiser
 ## Heatmiser Thermostats Homebridge plugin
 
 This is an Accessory plugin for Nick Farina's Homebridge implementation (https://github.com/nfarina/homebridge)
