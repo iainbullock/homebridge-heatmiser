@@ -1,6 +1,6 @@
 {
   "name": "homebridge-heatmiser-ib",
-  "displayName": "Homebridge Heatmiser (iainbullock)",
+  "displayName": "Homebridge Heatmiser IB",
   "version": "1.0.2",
   "description": "Heatmiser Thermostats Homebridge plugin",
   "license": "Apache-2.0",
