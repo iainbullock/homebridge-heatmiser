@@ -6,10 +6,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/iainbullock/homebridge-heatmiser.git"
+    "url": "git://github.com/iainbullock/homebridge-heatmiser-ib.git"
   },
   "bugs": {
-    "url": "https://github.com/iainbullock/homebridge-heatmiser/issues"
+    "url": "https://github.com/iainbullock/homebridge-heatmiser-ib/issues"
   },
   "engines": {
     "node": ">=0.12.0",
@@ -25,7 +25,7 @@
     "Heatmiser",
     "thermostat"
   ],
-  "homepage": "https://github.com/iainbullock/homebridge-heatmiser#readme",
+  "homepage": "https://github.com/iainbullock/homebridge-heatmiser-ib#readme",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
