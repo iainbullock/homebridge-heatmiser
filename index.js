@@ -52,7 +52,7 @@ HeatmiserWifi.prototype = {
     setTargetHeatingCoolingState: function (setTargetHeatingCoolingState, callback) {
       this.writeTHCSNeeded = 1;
       var THCS = this.thermostat.getCharacteristic(Characteristic.TargetHeatingCoolingState).value; // 0,1,2,3
-//      this.log('setTargetHeatingCoolingState: ' + THCS);
+      this.log('setTargetHeatingCoolingState: ' + THCS);
     callback(null);
     },
 
@@ -83,7 +83,7 @@ HeatmiserWifi.prototype = {
     setTargetTemperature: function (targetTemperature, callback) {
         this.writeTTNeeded = 1;
         var TT = this.thermostat.getCharacteristic(Characteristic.TargetTemperature).value; // 10-38
-//        this.log('setTargetTemperature: ' + TT);
+        this.log('setTargetTemperature: ' + TT);
       callback(null);
     },
 
