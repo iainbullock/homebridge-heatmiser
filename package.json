@@ -1,25 +1,34 @@
 {
-  "name": "homebridge-heatmiser-iainbullock",
+  "name": "homebridge-heatmiser-ib",
+  "displayName": "Homebridge Heatmiser (iainbullock)",
   "version": "1.0.0",
   "description": "Heatmiser Thermostats Homebridge plugin",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iainbullock/homebridge-heatmiser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iainbullock/homebridge-heatmiser/issues"
+  },
   "engines": {
     "node": ">=0.12.0",
     "homebridge": ">=0.2.0"
   },
-   "dependencies": { 
-     "heatmiser":"^2.0.0"
+  "dependencies": {
+    "heatmiser": "^2.0.0"
   },
-   "author": "iainbullock",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/iainbullock/homebridge-heatmiser.git"
-  },
+  "author": "iainbullock",
   "keywords": [
-    "homebridge-plugin-iainbullock",
+    "homebridge-plugin-ib",
     "homebridge-plugin",
     "Heatmiser",
     "thermostat"
-  ]
+  ],
+  "homepage": "https://github.com/iainbullock/homebridge-heatmiser#readme",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
-

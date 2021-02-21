@@ -1,7 +1,5 @@
 'use strict';
 var heatmiser = require("heatmiser");
-var AsyncLock = require('async-lock');
-const key = 'lock';
 var Characteristic, Service;
 
 module.exports = function (homebridge) {
@@ -9,7 +7,7 @@ module.exports = function (homebridge) {
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
 
-    homebridge.registerAccessory('homebridge-heatmiser', 'HeatmiserWifi', HeatmiserWifi, false);
+    homebridge.registerAccessory('homebridge-heatmiser-ib', 'HeatmiserWifi', HeatmiserWifi, false);
 };
 
 function HeatmiserWifi(log, config, api) {
@@ -23,8 +21,6 @@ function HeatmiserWifi(log, config, api) {
     this.refreshInterval = config["refreshInterval"];
     this.writeTHCSNeeded = 0;
     this.writeTTNeeded = 0;
-
-    this.lock = new AsyncLock({ timeout: config["timeout"] || 5000 });
 
     this.thermostat = new Service.Thermostat();
     this.thermostat.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
