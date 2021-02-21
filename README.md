@@ -3,7 +3,9 @@
 
 This is an Accessory plugin for Nick Farina's Homebridge implementation (https://github.com/nfarina/homebridge)
 
-Based on homebridge-heatmiser by pumamood (https://github.com/pumamood/homebridge-heatmiser), which is in turn based on the version by Thosirl (https://github.com/thosirl/homebridge-heatmiser). Reads and Writes with the Heatmiser are done asyncronously by polling, which is makes the plugin faster and less prone to lock ups caused by the slow Heatmiser response
+Based on homebridge-heatmiser by pumamood (https://github.com/pumamood/homebridge-heatmiser), which is in turn based on the version by Thosirl (https://github.com/thosirl/homebridge-heatmiser). 
+
+Reads and Writes with the Heatmiser are done asyncronously by polling, which is makes the plugin faster and less prone to lock ups caused by the slow Heatmiser response.
 
 Tested with Heatmiser Wifi accessory here, not with Netmonitor.
 
@@ -42,14 +44,3 @@ The refreshInterval option controls how often the Heatmiser is polled to read / 
 
 ```
 
-* For Netmonitor
-```json
-    {
-      "accessory": "HeatmiserNetmonitor",
-      "ip_address": "your_netmonitor_ip",
-      "pin": your_pin,
-      "network_address": 1, // Network Address of the Stat you want to talk to
-      "name": "Kitchen Thermostat",
-      "room": "Kitchen"
-    }
-```
